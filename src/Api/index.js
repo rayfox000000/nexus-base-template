@@ -45,7 +45,7 @@ async function main() {
     app.use("/api", router);
     app.use(errorHandler())
 
-    console.log("Cedit service API run on localhost:" + config.port || "8080")
+    console.log("Simple Base Template run on localhost:" + config.port || "8080")
 
     app.listen(config.port || 8080);
 }

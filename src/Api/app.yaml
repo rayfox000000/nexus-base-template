@@ -1,0 +1,11 @@
+# [START gae_quickstart_yaml]
+runtime: nodejs10
+# [END gae_quickstart_yaml]
+
+env_variables:
+  PORT: '8080'
+  DEFAULT_LANGUAGE: 'en_us'
+  APP_ID : 'testing app'
+  LIMIT : '10'
+
+  

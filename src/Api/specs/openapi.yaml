@@ -1,0 +1,65 @@
+openapi: "3.0.0"
+info:
+  description: "This is a sample server Petstore server.  You can find out more about     Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  version: "1.0.0"
+  title: "Swagger Petstore"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "apiteam@swagger.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+paths:
+  /reports/settlement:
+    post:
+      summary: 'Provides search capability.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                criteria:
+                  type: string
+                  description: 'Search string'
+                start:
+                  description: Starting record number.
+                  type: integer
+                  minimum: 0
+                rows:
+                  type: integer
+                  default: 100
+                  minimum: 1
+                  maximum: 100
+              required:
+                - criteria
+                - rows
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: 
+                      type: number
+                      example: 4011,
+                    title:
+                      type: string
+                      example: 'Latest report 2019'
+                    created:
+                      type: string
+                      format: date-time
+                    archived:
+                      type: boolean
+                      default: false
+                    ISBN:
+                      type: string
+                      pattern: 'ISBN\x20(?=.{13}$)\d{1,5}([- ])\d{1,7}\1\d{1,6}\1(\d|X)$'
+                      example: 'ISBN 1-56389-016-X'
+                    
+        '404':
+          description: No matching record found for the given criteria.

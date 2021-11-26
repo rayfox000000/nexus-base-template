@@ -9,6 +9,9 @@ info:
   license:
     name: "Apache 2.0"
     url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+servers:
+- url: https://api.example.com
+
 paths:
   /reports/settlement:
     post:
@@ -34,6 +37,63 @@ paths:
               required:
                 - criteria
                 - rows
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: 
+                      type: number
+                      example: 4011,
+                    title:
+                      type: string
+                      example: 'Latest report 2019'
+                    created:
+                      type: string
+                      format: date-time
+                    archived:
+                      type: boolean
+                      default: false
+                    ISBN:
+                      type: string
+                      pattern: 'ISBN\x20(?=.{13}$)\d{1,5}([- ])\d{1,7}\1\d{1,6}\1(\d|X)$'
+                      example: 'ISBN 1-56389-016-X'
+  /configs/{data}:
+    post:
+      summary: 'Provides search capability.'
+      parameters:
+        - name: data
+          in: path
+          description: 'Name of the dataset.'
+          required: true
+          schema:
+            type: string
+            default: oa_citations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                criteria:
+                  type: string
+                  description: 'Search string'
+                start:
+                  description: Starting record number.
+                  type: integer
+                  minimum: 0
+                rows:
+                  type: integer
+                  default: 100
+                  minimum: 1
+                  maximum: 100
+              required:
+                - criteria
       responses:
         '200':
           description: successful operation

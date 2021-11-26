@@ -8,11 +8,7 @@ var swaggerUi = require('swagger-ui-express')
 var spec = require('./specs/openapi.json')
 var errorHandler = require("./middleware/errorHandler")
 
-const fs = require('fs')
-const jsYaml = require("js-yaml");
-const {
-    OpenApiValidator
-} = require("express-openapi-validate");
+
 
 main()
 
@@ -28,20 +24,7 @@ async function main() {
         res.send(spec);
     })
     app.use('/swagger/docs', swaggerUi.serve, swaggerUi.setup(spec));
-    // Load the validator and the spec
-    const openApiDocument = jsYaml.load(
-        fs.readFileSync("./specs/openapi.yaml", "utf-8")
-    );
-
-    // Construct the validator with some basic options
-    const validator = new OpenApiValidator(openApiDocument, {
-        ajvOptions: {
-            allErrors: true,
-            removeAdditional: "all",
-        }
-    });
-
-    app.use(validator.match());
+    
     app.use("/api", router);
     app.use(errorHandler())
 

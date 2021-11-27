@@ -7,8 +7,7 @@ var config = require('./config')
 var swaggerUi = require('swagger-ui-express')
 var spec = require('./specs/openapi.json')
 var errorHandler = require("./middleware/errorHandler")
-
-
+var mysqlDb = require('./mySqlDB');
 
 main()
 
@@ -20,6 +19,7 @@ async function main() {
     app.use(bodyParser.urlencoded({
         extended: false
     }));
+    mysqlDb.sequelize.sync();
     app.get('/docs', (req, res) => {
         res.send(spec);
     })
